@@ -1,6 +1,7 @@
 package sirsecurity.smoothbalance.adapters
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import kotlinx.android.synthetic.main.row_money_item.view.*
 import sirsecurity.smoothbalance.MainActivity
 import sirsecurity.smoothbalance.models.MoneyItemModel
 import sirsecurity.smoothbalance.R
+import sirsecurity.smoothbalance.activities.EditMoneyItemActivity
 
 class MoneyItemAdapter(val context: Context) : RecyclerView.Adapter<MoneyItemAdapter.MoneyItemViewHolder>()
 {
@@ -31,16 +33,24 @@ class MoneyItemAdapter(val context: Context) : RecyclerView.Adapter<MoneyItemAda
         holder.moneyItemName.text = current.name
         holder.moneyItemPrice.text = current.price.toString()
 
+        if(current.state == "Outcome"){
+            holder.moneyItemPrice.setText("- ${current.price}")
+            holder.moneyItemPrice.setTextColor(Color.RED)
+        }
+        else{
+            holder.moneyItemPrice.setText("+ ${current.price}")
+            holder.moneyItemPrice.setTextColor(Color.GREEN)
+        }
+
+
         holder.moneyItemName.setOnClickListener {
             if(context is MainActivity)
                 context.updateItem(current)
         }
-
         holder.moneyItemPrice.setOnClickListener {
             if(context is MainActivity)
                 context.updateItem(current)
         }
-
         holder.btnDeleteItem.setOnClickListener {
             if(context is MainActivity)
                 context.deleteItem(current)
